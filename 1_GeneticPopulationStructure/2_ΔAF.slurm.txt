@@ -1,0 +1,14 @@
+#!/bin/bash
+#SBATCH --job-name=freq
+#SBATCH --output=logs/freq.log
+#SBATCH --error=logs/freq.err
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=4
+#SBATCH --mem=64G
+#SBATCH --time=24:00:00
+#SBATCH --partition=standard
+
+
+source activate gatk_env
+
+perl /home/yading/data/conda/envs/gatk_env/bin/snp-frequency-diff.pl --input SNPs_noRepeats.sync --output-prefix all --min-count 12 --min-coverage 18 --max-coverage 150 

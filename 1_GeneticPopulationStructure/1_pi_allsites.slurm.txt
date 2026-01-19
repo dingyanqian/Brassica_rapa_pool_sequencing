@@ -1,0 +1,17 @@
+#!/bin/bash
+#SBATCH --job-name=G1_pi
+#SBATCH --output=G1_pi.log
+#SBATCH --error=G1_pi.err
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=4
+#SBATCH --mem=16G
+#SBATCH --time=48:00:00
+#SBATCH --partition=standard
+
+
+source activate gatk_env
+
+perl Variance-sliding.pl --input ../G1.allsites.pileup --output ../G1.pi.1kb.w500 --measure pi --min-coverage 18 --max-coverage 150 --min-count 2 --window-size 1000 --step-size 500 --pool-size 44 --fastq-type sanger
+
+awk 'NR>1 && $5 ~ /^-?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?$/ {print $5}' G1.pi.1kb.w500 \
+| Rscript -e 'x<-scan("stdin", quiet=TRUE); set.seed(1); b<-replicate(10000, mean(sample(x, length(x), TRUE))); cat(mean(x), quantile(b,c(.025,.975)),"\n")' > pi_allsite.txt

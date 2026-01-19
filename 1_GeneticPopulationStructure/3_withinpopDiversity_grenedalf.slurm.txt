@@ -1,0 +1,31 @@
+ #!/bin/bash
+#SBATCH --job-name=grenedalf_diversity
+#SBATCH --output=logs/grenedalf_%A_%a.out
+#SBATCH --error=logs/grenedalf_%A_%a.err
+#SBATCH --time=24:00:00  # Adjust as needed
+#SBATCH --cpus-per-task=4  # Set the number of CPU cores
+#SBATCH --mem=16G  # Set memory allocation
+
+# Load required modules (if needed)
+source activate gatk_env
+
+# Define working directory
+WORKDIR="/home/yading/scratch/MEmethod/1_structure/2_diversity"
+OUTPUTDIR="/home/yading/scratch/MEmethod/1_structure/2_diversity/diversity_results"
+
+mkdir -p ${OUTPUTDIR}
+
+# Run grenedalf for this chromosome
+grenedalf diversity --sync-path ${WORKDIR} \
+    --filter-sample-min-count 2 \
+    --filter-sample-min-read-depth 4 \
+    --window-type interval --window-interval-width 50000 \
+    --window-average-policy valid-snps \
+    --pool-sizes ${WORKDIR}/pool_sizes.txt \
+    --filter-total-min-read-depth 18 --filter-total-max-read-depth 150 \
+    --no-extra-columns \
+    --out-dir ${OUTPUTDIR} --file-prefix diversity_stats \
+    --threads 4
+
+
+echo "Completed grenedalf for diversity analysis"
