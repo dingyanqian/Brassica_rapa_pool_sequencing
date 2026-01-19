@@ -1,8 +1,7 @@
 # Brassica_rapa_pool_sequencing
 # Brassica rapa Experimental Evolution – Downstream Genomic Data and Analysis Scripts
 
-This repository contains the processed genomic input files, conda environment specifications,
-and complete analysis scripts used in the downstream population genomic analyses for the study:
+This repository contains the processed genomic-relevant input files, conda environment specifications, and complete analysis scripts used in the downstream population genomic analyses for the study:
 
 **"Genomic responses to divergent temperature and pollinator selection in *Brassica rapa*"**  
 (Ding & Schiestl, *New Phytologist*, accepeted)
@@ -11,8 +10,6 @@ Raw FASTQ sequence files are available through the European Nucleotide Archive (
 
 This github package includes:
 
-- Filtered SNP datasets (VCF)  
-- Allele-frequency and coverage tables  
 - Effective population size (Ne) estimates and pool-size metadata  
 - Conda environment file (`gatk_env.yml`) documenting full software versions  
 - Scripts for population structure analyses, drift simulations, selection scans, and annotation  
@@ -24,8 +21,6 @@ This github package includes:
 
 ```
 0_InputData/
-    filterSNPs17_noRepeats.vcf.gz
-    allele_frequencies_and_coverage.txt
     Ne.csv
     pool_sizes.txt
     gatk_env.yml
@@ -73,13 +68,6 @@ This github package includes:
 
 ## 2. Input Data Description
 
-### **filtered_snps.vcf.gz**
-Filtered SNP dataset generated from pool-seq reads using GATK HaplotypeCaller,
-followed by depth/quality filtering. Used as input for all downstream analyses.
-
-### **allele_frequencies_and_coverage.txt**
-Per-SNP allele-frequency estimates and sequencing depth across all pools.
-
 ### **Ne.csv**
 Effective population size estimates used for drift simulations and null expectation.
 
@@ -96,7 +84,13 @@ Recreate with:
 conda env create -f gatk_env.yml
 conda activate gatk_env
 ```
+what's not in the folder but important for downstream analysis:
+### **filtered_snps.vcf.gz**
+Filtered SNP dataset generated from pool-seq reads using GATK HaplotypeCaller,
+followed by depth/quality filtering in the publication. Used as input for all downstream analyses.
 
+### **allele_frequencies_and_coverage.txt**
+Per-SNP allele-frequency estimates and sequencing depth across all pools.
 ---
 
 ## 3. Analysis Modules
